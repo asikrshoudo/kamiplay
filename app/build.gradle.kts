@@ -79,4 +79,10 @@ dependencies {
     // Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+
+    // MediaSession extension (for media style notification)
+    implementation("androidx.media:media:1.7.0")
+
+    // Fragment-ktx for bottom sheet
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 }

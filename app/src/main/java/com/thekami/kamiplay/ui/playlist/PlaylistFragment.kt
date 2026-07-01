@@ -1,5 +1,6 @@
 package com.thekami.kamiplay.ui.playlist
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,11 @@ class PlaylistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val recyclerView = view.findViewById<RecyclerView>(R.id.playlistRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = PlaylistAdapter(emptyList()) { /* TODO: open playlist */ }
+        val adapter = PlaylistAdapter(emptyList()) { playlist ->
+            val intent = Intent(requireContext(), PlaylistSongsActivity::class.java)
+            intent.putExtra("playlistId", playlist.id)
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fabAddPlaylist)

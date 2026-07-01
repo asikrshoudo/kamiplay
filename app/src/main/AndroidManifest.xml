@@ -42,5 +42,7 @@
             android:exported="false"
             android:theme="@style/Theme.Kamiplay.NowPlaying" />
 
+    <activity android:name=".ui.nowplaying.NowPlayingActivity" android:exported="false" android:theme="@style/Theme.Kamiplay.NowPlaying" />
+    <activity android:name=".ui.playlist.PlaylistSongsActivity" android:exported="false" />
     </application>
 </manifest>

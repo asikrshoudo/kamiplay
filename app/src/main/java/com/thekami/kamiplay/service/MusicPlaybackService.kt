@@ -12,12 +12,14 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.datasource.DefaultDataSource
 import com.thekami.kamiplay.data.model.Song
+import android.support.v4.media.session.MediaSessionCompat
 
 class MusicPlaybackService : Service() {
     private lateinit var player: ExoPlayer
     private val binder = LocalBinder()
     private var currentSong: Song? = null
     private lateinit var notificationManager: NotificationManager
+    private lateinit var mediaSession: MediaSessionCompat
 
     inner class LocalBinder : Binder() {
         fun getService(): MusicPlaybackService = this@MusicPlaybackService
@@ -29,6 +31,17 @@ class MusicPlaybackService : Service() {
         super.onCreate()
         notificationManager = getSystemService(NotificationManager::class.java)
         createNotificationChannel()
+
+        mediaSession = MediaSessionCompat(this, "KamiPlay")
+        mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS or MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS)
+        mediaSession.setCallback(object : MediaSessionCompat.Callback() {
+            override fun onPlay() { resume() }
+            override fun onPause() { pause() }
+            override fun onSkipToNext() { playNext() }
+            override fun onSkipToPrevious() { playPrevious() }
+        })
+        mediaSession.isActive = true
+
         player = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -50,6 +63,10 @@ class MusicPlaybackService : Service() {
         player.prepare()
         player.play()
         startForeground(1, buildNotification(song))
+        mediaSession.setMetadata(android.support.v4.media.MediaMetadataCompat.Builder()
+            .putString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_TITLE, song.title)
+            .putString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ARTIST, song.artist)
+            .build())
     }
 
     fun pause() = player.pause()
@@ -63,11 +80,29 @@ class MusicPlaybackService : Service() {
 
     fun getCurrentSong(): Song? = currentSong
 
+    fun playNext() {
+        // place actual next logic later
+    }
+
+    fun playPrevious() {
+        // place actual previous logic later
+    }
+
     private fun buildNotification(song: Song): Notification {
+        val playPauseAction = NotificationCompat.Action(
+            if (isPlaying()) android.R.drawable.ic_media_pause else android.R.drawable.ic_media_play,
+            "Play/Pause",
+            null // pending intent later
+        )
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(song.title)
             .setContentText(song.artist)
             .setSmallIcon(android.R.drawable.ic_media_play)
+            .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
+                .setMediaSession(mediaSession.sessionToken)
+                .setShowActionsInCompactView(0)
+            )
+            .addAction(playPauseAction)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .build()
     }
@@ -84,6 +119,7 @@ class MusicPlaybackService : Service() {
     }
 
     override fun onDestroy() {
+        mediaSession.release()
         player.release()
         super.onDestroy()
     }

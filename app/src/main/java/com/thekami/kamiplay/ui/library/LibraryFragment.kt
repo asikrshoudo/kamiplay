@@ -16,17 +16,20 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.thekami.kamiplay.MainActivity
 import com.thekami.kamiplay.R
 import com.thekami.kamiplay.data.local.MusicScanner
 import com.thekami.kamiplay.data.model.Song
 import com.thekami.kamiplay.service.MusicPlaybackService
 import com.thekami.kamiplay.ui.adapter.SongAdapter
+import com.thekami.kamiplay.ui.playlist.AddToPlaylistDialog
 
 class LibraryFragment : Fragment() {
     private var musicService: MusicPlaybackService? = null
     private var bound = false
     private lateinit var recyclerView: RecyclerView
     private var songs = emptyList<Song>()
+    private lateinit var adapter: SongAdapter
 
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -84,9 +87,14 @@ class LibraryFragment : Fragment() {
 
     private fun loadSongs() {
         songs = MusicScanner.getAllSongs(requireContext())
-        recyclerView.adapter = SongAdapter(songs) { song, _ ->
+        adapter = SongAdapter(songs, { song, _ ->
             musicService?.play(song)
-        }
+            (requireActivity() as? MainActivity)?.updateMiniPlayer()
+        }, { song ->
+            val dialog = AddToPlaylistDialog(song)
+            dialog.show(parentFragmentManager, "addToPlaylist")
+        })
+        recyclerView.adapter = adapter
     }
 
     override fun onDestroyView() {

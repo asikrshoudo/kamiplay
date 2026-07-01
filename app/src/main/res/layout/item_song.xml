@@ -1,20 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:background="?attr/selectableItemBackground">
+    android:background="?attr/selectableItemBackground"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/albumArt"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/album_art"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:src="@drawable/ic_music_note" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
         android:textAppearance="?attr/textAppearanceTitleMedium"
         android:textColor="@color/on_primary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:singleLine="true"
+        app:layout_constraintStart_toEndOf="@id/albumArt"
+        app:layout_constraintTop_toTopOf="@id/albumArt"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Song Title" />
 
     <TextView
         android:id="@+id/artist"
@@ -22,8 +37,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?attr/textAppearanceBodySmall"
         android:textColor="@color/secondary"
+        android:singleLine="true"
         app:layout_constraintStart_toStartOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/title"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="Artist" />
 </androidx.constraintlayout.widget.ConstraintLayout>

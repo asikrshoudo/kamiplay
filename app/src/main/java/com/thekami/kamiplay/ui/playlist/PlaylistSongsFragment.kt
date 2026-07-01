@@ -15,7 +15,7 @@ import com.thekami.kamiplay.ui.adapter.SongAdapter
 import kotlinx.coroutines.launch
 
 class PlaylistSongsFragment : Fragment() {
-    private lateinit var playlistId: Long
+    private var playlistId: Long = 0
     private lateinit var adapter: SongAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

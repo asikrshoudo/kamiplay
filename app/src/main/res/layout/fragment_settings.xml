@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/background"
-    android:padding="32dp">
+    android:padding="32dp"
+    android:gravity="center_horizontal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="KamiPlay"
         android:textAppearance="?attr/textAppearanceHeadline4"
-        android:textColor="@color/on_primary" />
+        android:textColor="@color/on_primary"
+        android:fontFamily="@font/ubuntu_bold" />
 
     <TextView
         android:id="@+id/textVersion"
@@ -21,4 +22,34 @@
         android:textAppearance="?attr/textAppearanceBodyLarge"
         android:textColor="@color/secondary"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/btnDiscord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Join Discord Community"
+        android:layout_marginTop="32dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textColor="@color/on_primary"
+        android:backgroundTint="@color/primary_container" />
+
+    <Button
+        android:id="@+id/btnWebsite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visit Website"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textColor="@color/on_primary"
+        android:backgroundTint="@color/primary_container" />
+
+    <Button
+        android:id="@+id/btnBlog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Read Our Blog"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textColor="@color/on_primary"
+        android:backgroundTint="@color/primary_container" />
 </LinearLayout>

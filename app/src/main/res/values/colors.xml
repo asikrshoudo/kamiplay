@@ -1,9 +1,9 @@
 <resources>
-    <color name="primary">#FF1DB954</color> <!-- Spotify green -->
-    <color name="on_primary">#FF000000</color>
-    <color name="primary_container">#FF1ED760</color>
+    <color name="primary">#FF000000</color>
+    <color name="on_primary">#FFFFFFFF</color>
+    <color name="primary_container">#FF1A1A1A</color>
     <color name="secondary">#FFB3B3B3</color>
-    <color name="background">#FF121212</color>
-    <color name="surface">#FF282828</color>
-    <color name="ic_launcher_background">#FF121212</color>
+    <color name="background">#FF000000</color>
+    <color name="surface">#FF121212</color>
+    <color name="ic_launcher_background">#FF000000</color>
 </resources>

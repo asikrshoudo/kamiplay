@@ -11,6 +11,8 @@ import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -28,7 +30,9 @@ class LibraryFragment : Fragment() {
     private var musicService: MusicPlaybackService? = null
     private var bound = false
     private lateinit var recyclerView: RecyclerView
-    private var songs = emptyList<Song>()
+    private lateinit var emptyView: TextView
+    private lateinit var searchView: SearchView
+    private var allSongs = emptyList<Song>()
     private lateinit var adapter: SongAdapter
 
     private val connection = object : ServiceConnection {
@@ -53,7 +57,28 @@ class LibraryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         recyclerView = view.findViewById(R.id.recyclerView)
+        emptyView = view.findViewById(R.id.emptyView)
+        searchView = view.findViewById(R.id.searchView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        adapter = SongAdapter(emptyList(), { song, _ ->
+            musicService?.play(song)
+            (requireActivity() as? MainActivity)?.updateMiniPlayer()
+        }, { song ->
+            val dialog = AddToPlaylistDialog(song)
+            dialog.show(parentFragmentManager, "addToPlaylist")
+        })
+        recyclerView.adapter = adapter
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterSongs(newText.orEmpty())
+                return true
+            }
+        })
 
         if (checkPermission()) {
             loadSongs()
@@ -86,15 +111,20 @@ class LibraryFragment : Fragment() {
     }
 
     private fun loadSongs() {
-        songs = MusicScanner.getAllSongs(requireContext())
-        adapter = SongAdapter(songs, { song, _ ->
-            musicService?.play(song)
-            (requireActivity() as? MainActivity)?.updateMiniPlayer()
-        }, { song ->
-            val dialog = AddToPlaylistDialog(song)
-            dialog.show(parentFragmentManager, "addToPlaylist")
-        })
-        recyclerView.adapter = adapter
+        allSongs = MusicScanner.getAllSongs(requireContext())
+        filterSongs(searchView.query?.toString().orEmpty())
+        emptyView.visibility = if (allSongs.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun filterSongs(query: String) {
+        val filtered = if (query.isBlank()) allSongs
+        else allSongs.filter {
+            it.title.contains(query, ignoreCase = true) ||
+                    it.artist.contains(query, ignoreCase = true) ||
+                    it.album.contains(query, ignoreCase = true)
+        }
+        adapter.updateSongs(filtered)
+        emptyView.visibility = if (filtered.isEmpty() && allSongs.isEmpty()) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {

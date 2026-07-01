@@ -7,10 +7,8 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.view.View
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import coil.load
@@ -41,16 +39,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set up toolbar
+        setSupportActionBar(binding.toolbar)
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.navView.setupWithNavController(navController)
 
-        // Bind to music service
         val intent = Intent(this, MusicPlaybackService::class.java)
         bindService(intent, connection, Context.BIND_AUTO_CREATE)
 
-        // Mini player click opens now playing
         binding.miniPlayer.root.setOnClickListener {
             startActivity(Intent(this, NowPlayingActivity::class.java))
         }

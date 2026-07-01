@@ -119,7 +119,7 @@ class ShareActivity : AppCompatActivity() {
             return
         }
         val payload = Payload.fromFile(file)
-        connectionClient?.sendPayload(endpointIdcd ~/work/kamiplay, payload)
+        connectionClient?.sendPayload(endpointId!!, payload)
         statusText.text = "Sending ${song.title}..."
     }
 

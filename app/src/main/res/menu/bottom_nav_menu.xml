@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/libraryFragment"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/library" />
+    <item
+        android:id="@+id/playlistFragment"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/playlists" />
+    <item
+        android:id="@+id/settingsFragment"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:title="@string/settings" />
+</menu>

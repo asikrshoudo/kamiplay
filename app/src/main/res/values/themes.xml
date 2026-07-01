@@ -1,3 +1,13 @@
 <resources>
-    <style name="Theme.KamiPlay" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.Kamiplay" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="android:fontFamily">@font/ubuntu_regular</item>
+    </style>
+
+    <style name="Theme.Kamiplay.NowPlaying" parent="Theme.Kamiplay">
+        <item name="android:windowFullscreen">true</item>
+    </style>
 </resources>

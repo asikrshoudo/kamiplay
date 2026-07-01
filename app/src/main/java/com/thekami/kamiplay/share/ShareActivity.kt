@@ -73,10 +73,10 @@ class ShareActivity : AppCompatActivity() {
                     statusText.text = "Disconnected"
                 }
             }, AdvertisingOptions(Strategy.P2P_STAR))
-            .addOnSuccessListener {
+            ?.addOnSuccessListener {
                 statusText.text = "Advertising... waiting for receiver"
             }
-            .addOnFailureListener {
+            ?.addOnFailureListener {
                 statusText.text = "Advertising failed"
             }
     }
@@ -103,8 +103,11 @@ class ShareActivity : AppCompatActivity() {
                 }
                 override fun onEndpointLost(endpointId: String) {}
             }, DiscoveryOptions(Strategy.P2P_STAR))
-            .addOnSuccessListener {
+            ?.addOnSuccessListener {
                 statusText.text = "Discovering senders..."
+            }
+            ?.addOnFailureListener {
+                statusText.text = "Discovery failed"
             }
     }
 
@@ -116,7 +119,7 @@ class ShareActivity : AppCompatActivity() {
             return
         }
         val payload = Payload.fromFile(file)
-        connectionClient?.sendPayload(endpointId!!, payload)
+        connectionClient?.sendPayload(endpointIdcd ~/work/kamiplay, payload)
         statusText.text = "Sending ${song.title}..."
     }
 

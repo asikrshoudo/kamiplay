@@ -29,7 +29,7 @@ jobs:
       - name: Build Release AAB
         run: ./gradlew bundleRelease
         env:
-          KEYSTORE_PATH: app/kamiplay-release.keystore
+          KEYSTORE_PATH: kamiplay-release.keystore
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}

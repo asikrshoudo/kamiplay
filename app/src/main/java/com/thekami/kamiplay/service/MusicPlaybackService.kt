@@ -2,12 +2,11 @@ package com.thekami.kamiplay.service
 
 import android.app.*
 import android.content.Intent
-import android.media.AudioAttributes
 import android.os.Binder
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import androidx.media3.common.AudioAttributes
 import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.datasource.DefaultDataSource
@@ -69,9 +68,6 @@ class MusicPlaybackService : Service() {
             .setContentText(song.artist)
             .setSmallIcon(android.R.drawable.ic_media_play)
             .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setStyle(androidx.media.app.NotificationCompat.MediaStyle()
-                .setMediaSession(null) // later add MediaSession token
-            )
             .build()
     }
 

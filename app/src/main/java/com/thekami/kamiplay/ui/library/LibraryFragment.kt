@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.thekami.kamiplay.R
 import com.thekami.kamiplay.data.local.MusicScanner
 import com.thekami.kamiplay.data.model.Song
 import com.thekami.kamiplay.service.MusicPlaybackService
@@ -60,7 +61,6 @@ class LibraryFragment : Fragment() {
             )
         }
 
-        // Bind to service
         val intent = Intent(requireContext(), MusicPlaybackService::class.java)
         requireActivity().bindService(intent, connection, Context.BIND_AUTO_CREATE)
     }

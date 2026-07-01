@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write  # এই লাইনটা দিলে রিলিজ তৈরি করতে পারবে
+  contents: write
 
 jobs:
   release:
@@ -26,6 +26,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Auto increment versionCode
+        run: |
+          sed -i "s/versionCode = .*/versionCode = $GITHUB_RUN_NUMBER/" app/build.gradle.kts
+          echo "Updated versionCode to $GITHUB_RUN_NUMBER"
+
       - name: Decode Keystore
         run: echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 -d > app/kamiplay-release.keystore
 
@@ -40,7 +45,6 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
-      # আপাতত artifact হিসেবেও রেখে দিচ্ছি, যাতে ডাউনলোড করতে পারো
       - name: Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:

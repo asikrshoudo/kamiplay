@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.thekami.kamiplay.R
+import com.thekami.kamiplay.share.ShareActivity
 
 class SettingsFragment : Fragment() {
 
@@ -21,8 +22,11 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.findViewById<TextView>(R.id.textVersion).text = "KamiPlay v1.1"
+        view.findViewById<TextView>(R.id.textVersion).text = "KamiPlay v1.3"
 
+        view.findViewById<View>(R.id.btnShare).setOnClickListener {
+            startActivity(Intent(requireContext(), ShareActivity::class.java))
+        }
         view.findViewById<View>(R.id.btnDiscord).setOnClickListener {
             openUrl("https://www.thekami.tech/discord/")
         }

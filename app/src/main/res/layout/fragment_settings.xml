@@ -24,11 +24,21 @@
         android:layout_marginTop="16dp" />
 
     <Button
+        android:id="@+id/btnShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Share Music Nearby"
+        android:layout_marginTop="32dp"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:textColor="@color/on_primary"
+        android:backgroundTint="@color/primary_container" />
+
+    <Button
         android:id="@+id/btnDiscord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Join Discord Community"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:textColor="@color/on_primary"
         android:backgroundTint="@color/primary_container" />

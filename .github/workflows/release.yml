@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write  # এই লাইনটা দিলে রিলিজ তৈরি করতে পারবে
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -34,10 +37,22 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
 
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
+
+      # আপাতত artifact হিসেবেও রেখে দিচ্ছি, যাতে ডাউনলোড করতে পারো
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kamiplay-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/bundle/release/app-release.aab
+          files: |
+            app/build/outputs/bundle/release/app-release.aab
+            app/build/outputs/apk/debug/app-debug.apk
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: "Release ${{ github.ref_name }} – KamiPlay"
